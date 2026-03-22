@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Translate with Denis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Space Grotesk', sans-serif;
+        background: #0a0a0f;
+        min-height: 100vh;
+        padding: 40px 20px;
+        overflow-x: hidden;
+      }
+
+      /* Arka plan animasyonu */
+      body::before {
+        content: '';
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(ellipse at 20% 50%, rgba(120, 40, 200, 0.15) 0%, transparent 50%),
+                    radial-gradient(ellipse at 80% 20%, rgba(0, 200, 150, 0.1) 0%, transparent 50%),
+                    radial-gradient(ellipse at 60% 80%, rgba(255, 60, 120, 0.1) 0%, transparent 50%);
+        animation: bgMove 8s ease-in-out infinite alternate;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      @keyframes bgMove {
+        0%   { transform: translate(0, 0) rotate(0deg); }
+        100% { transform: translate(30px, 20px) rotate(3deg); }
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 36px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .header h1 {
+        font-size: 36px;
+        font-weight: 700;
+        background: linear-gradient(90deg, #a855f7, #06b6d4, #f43f5e, #a855f7);
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradientShift 4s linear infinite;
+        letter-spacing: -1px;
+      }
+
+      @keyframes gradientShift {
+        0%   { background-position: 0% 50%; }
+        100% { background-position: 300% 50%; }
+      }
+
+      .header p {
+        font-size: 13px;
+        color: #555;
+        margin-top: 6px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .card {
+        max-width: 900px;
+        margin: 0 auto;
+        background: #13131a;
+        border-radius: 20px;
+        border: 1px solid #2a2a3a;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 0 60px rgba(120, 40, 200, 0.15), 0 0 120px rgba(0, 200, 150, 0.05);
+        transition: box-shadow 0.3s;
+      }
+
+      .card:hover {
+        box-shadow: 0 0 80px rgba(120, 40, 200, 0.25), 0 0 140px rgba(0, 200, 150, 0.1);
+      }
+
+      /* Kart üstü ışık efekti */
+      .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #a855f7, #06b6d4, #f43f5e, transparent);
+        animation: topLine 3s linear infinite;
+      }
+
+      @keyframes topLine {
+        0%   { opacity: 0.4; }
+        50%  { opacity: 1; }
+        100% { opacity: 0.4; }
+      }
+
+      /* Dil bar */
+      .lang-bar {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #2a2a3a;
+        background: #0f0f18;
+      }
+
+      .lang-btn {
+        flex: 1;
+        padding: 18px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        font-family: 'Space Grotesk', sans-serif;
+        background: none;
+        border: none;
+        cursor: default;
+        color: #a855f7;
+        border-bottom: 2px solid #a855f7;
+        letter-spacing: 0.02em;
+        transition: color 0.2s;
+      }
+
+      .lang-btn.right {
+        color: #888;
+        border-bottom: 2px solid transparent;
+        text-align: left;
+      }
+
+      .lang-divider {
+        padding: 0 12px;
+      }
+
+      #swapBtn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 1px solid #2a2a3a;
+        background: #1a1a28;
+        cursor: pointer;
+        font-size: 16px;
+        color: #a855f7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+      }
+
+      #swapBtn:hover {
+        background: #a855f7;
+        color: #fff;
+        transform: rotate(180deg);
+        border-color: #a855f7;
+        box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+      }
+
+      /* Paneller */
+      .panels {
+        display: grid;
+        grid-template-columns: 1fr 1px 1fr;
+        min-height: 220px;
+      }
+
+      .panel {
+        padding: 24px;
+        position: relative;
+      }
+
+      .panel textarea {
+        width: 100%;
+        height: 160px;
+        border: none;
+        outline: none;
+        font-size: 18px;
+        font-family: 'Space Grotesk', sans-serif;
+        color: #f0f0f0;
+        resize: none;
+        background: transparent;
+        line-height: 1.6;
+        caret-color: #a855f7;
+      }
+
+      .panel textarea::placeholder {
+        color: #333;
+      }
+
+      .panel-divider {
+        background: #2a2a3a;
+        width: 1px;
+      }
+
+      .output-panel {
+        background: #0f0f18;
+      }
+
+      .output-text {
+        font-size: 18px;
+        line-height: 1.6;
+        min-height: 160px;
+        color: #06b6d4;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      .output-text.placeholder {
+        color: #333;
+        font-weight: 400;
+      }
+
+      /* Alt bar */
+      .panel-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 24px;
+        border-top: 1px solid #2a2a3a;
+        background: #0f0f18;
+      }
+
+      .char-count {
+        font-size: 12px;
+        color: #444;
+        letter-spacing: 0.05em;
+      }
+
+      .char-count.warning { color: #f43f5e; }
+
+      .footer-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      #clearBtn {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 1px solid #2a2a3a;
+        background: #1a1a28;
+        color: #555;
+        font-size: 12px;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+
+      #clearBtn:hover {
+        background: #f43f5e;
+        color: #fff;
+        border-color: #f43f5e;
+      }
+
+      #translateBtn {
+        padding: 10px 28px;
+        font-size: 14px;
+        font-weight: 600;
+        font-family: 'Space Grotesk', sans-serif;
+        background: linear-gradient(135deg, #a855f7, #06b6d4);
+        background-size: 200% 200%;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        letter-spacing: 0.03em;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #translateBtn::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #06b6d4, #f43f5e);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      #translateBtn:hover::after { opacity: 1; }
+      #translateBtn span { position: relative; z-index: 1; }
+
+      #translateBtn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
+      }
+
+      #translateBtn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Loading */
+      .loading-dots {
+        display: none;
+        gap: 6px;
+        align-items: center;
+        padding: 4px 0;
+      }
+
+      .loading-dots span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        animation: bounce 1.2s infinite;
+      }
+
+      .loading-dots span:nth-child(1) { background: #a855f7; }
+      .loading-dots span:nth-child(2) { background: #06b6d4; animation-delay: 0.2s; }
+      .loading-dots span:nth-child(3) { background: #f43f5e; animation-delay: 0.4s; }
+
+      @keyframes bounce {
+        0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+        40%            { transform: scale(1.2); opacity: 1; }
+      }
+
+      /* Hata */
+      .error-msg {
+        display: none;
+        font-size: 13px;
+        color: #f43f5e;
+        padding: 10px 24px;
+        border-top: 1px solid #2a1a1a;
+        background: #1a0f0f;
+      }
+
+      /* Yazarken input paneli parlar */
+      .panel textarea:focus ~ .glow,
+      .panel:focus-within .glow {
+        opacity: 1;
+      }
+
+      .glow {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: 0;
+        box-shadow: inset 0 0 30px rgba(168, 85, 247, 0.04);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <div class="header">
+      <h1>Translate with Denis</h1>
+      <p>Türkçe ↔ İngilizce</p>
+    </div>
+
+    <div class="card">
+
+      <div class="lang-bar">
+        <button class="lang-btn" id="sourceLangBtn">Türkçe</button>
+        <div class="lang-divider">
+          <button id="swapBtn">⇄</button>
+        </div>
+        <button class="lang-btn right" id="targetLangBtn">İngilizce</button>
+      </div>
+
+      <div class="panels">
+        <div class="panel">
+          <textarea id="wordInput" placeholder="Metin girin..." maxlength="500"></textarea>
+          <div class="glow"></div>
+        </div>
+        <div class="panel-divider"></div>
+        <div class="panel output-panel">
+          <div class="loading-dots" id="loadingDots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="output-text placeholder" id="outputText">Çeviri burada görünecek</div>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <span class="char-count" id="charCount">0 / 500</span>
+        <div class="footer-right">
+          <button id="clearBtn">✕</button>
+          <button id="translateBtn"><span>Çevir</span></button>
+        </div>
+      </div>
+
+      <div class="error-msg" id="errorMsg">
+        Çeviri yapılamadı. Lütfen internet bağlantınızı kontrol edin.
+      </div>
+
+    </div>
+
+    <script>
+      const wordInput    = document.getElementById('wordInput');
+      const translateBtn = document.getElementById('translateBtn');
+      const swapBtn      = document.getElementById('swapBtn');
+      const clearBtn     = document.getElementById('clearBtn');
+      const outputText   = document.getElementById('outputText');
+      const loadingDots  = document.getElementById('loadingDots');
+      const errorMsg     = document.getElementById('errorMsg');
+      const charCount    = document.getElementById('charCount');
+      const sourceLangBtn = document.getElementById('sourceLangBtn');
+      const targetLangBtn = document.getElementById('targetLangBtn');
+
+      let currentSource = 'tr';
+      let currentTarget = 'en';
+      let translateTimer = null;
+
+      wordInput.addEventListener('input', function() {
+        const len = wordInput.value.length;
+        charCount.textContent = `${len} / 500`;
+        charCount.classList.toggle('warning', len > 450);
+        clearBtn.style.display = len > 0 ? 'flex' : 'none';
+        clearTimeout(translateTimer);
+        if (len > 0) {
+          translateTimer = setTimeout(translate, 1000);
+        } else {
+          resetOutput();
+        }
+      });
+
+      clearBtn.addEventListener('click', function() {
+        wordInput.value = '';
+        charCount.textContent = '0 / 500';
+        clearBtn.style.display = 'none';
+        resetOutput();
+      });
+
+      swapBtn.addEventListener('click', function() {
+        if (currentSource === 'tr') {
+          currentSource = 'en';
+          currentTarget = 'tr';
+          sourceLangBtn.textContent = 'İngilizce';
+          targetLangBtn.textContent = 'Türkçe';
+        } else {
+          currentSource = 'tr';
+          currentTarget = 'en';
+          sourceLangBtn.textContent = 'Türkçe';
+          targetLangBtn.textContent = 'İngilizce';
+        }
+        if (wordInput.value.trim()) translate();
+      });
+
+      translateBtn.addEventListener('click', translate);
+
+      wordInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          translate();
+        }
+      });
+
+      function resetOutput() {
+        outputText.textContent = 'Çeviri burada görünecek';
+        outputText.classList.add('placeholder');
+        errorMsg.style.display = 'none';
+        loadingDots.style.display = 'none';
+        outputText.style.display = 'block';
+      }
+
+      async function translate() {
+        const word = wordInput.value.trim();
+        if (!word) return;
+
+        loadingDots.style.display = 'flex';
+        outputText.style.display = 'none';
+        errorMsg.style.display = 'none';
+        translateBtn.disabled = true;
+
+        try {
+          const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${currentSource}&tl=${currentTarget}&dt=t&q=${encodeURIComponent(word)}`;
+          const response = await fetch(url);
+          const data = await response.json();
+          const result = data[0][0][0];
+
+          outputText.textContent = result;
+          outputText.classList.remove('placeholder');
+          outputText.style.display = 'block';
+        } catch (err) {
+          errorMsg.style.display = 'block';
+          outputText.style.display = 'block';
+        } finally {
+          loadingDots.style.display = 'none';
+          translateBtn.disabled = false;
+        }
+      }
+    </script>
+
+  </body>
+</html>
