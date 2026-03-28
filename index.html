@@ -21,92 +21,73 @@
         overflow-x: hidden;
       }
 
-      /* Arka plan animasyonu */
+      /* Statik, hafif derinlik (animasyonsuz) */
       body::before {
         content: '';
         position: fixed;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(ellipse at 20% 50%, rgba(120, 40, 200, 0.15) 0%, transparent 50%),
-                    radial-gradient(ellipse at 80% 20%, rgba(0, 200, 150, 0.1) 0%, transparent 50%),
-                    radial-gradient(ellipse at 60% 80%, rgba(255, 60, 120, 0.1) 0%, transparent 50%);
-        animation: bgMove 8s ease-in-out infinite alternate;
+        inset: 0;
+        background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 40, 200, 0.08) 0%, transparent 55%),
+                    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
         pointer-events: none;
         z-index: 0;
       }
 
-      @keyframes bgMove {
-        0%   { transform: translate(0, 0) rotate(0deg); }
-        100% { transform: translate(30px, 20px) rotate(3deg); }
-      }
-
       .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         text-align: center;
-        margin-bottom: 36px;
+        margin-bottom: 32px;
         position: relative;
         z-index: 1;
       }
 
-      .header h1 {
-        font-size: 36px;
-        font-weight: 700;
-        background: linear-gradient(90deg, #a855f7, #06b6d4, #f43f5e, #a855f7);
-        background-size: 300% 100%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: gradientShift 4s linear infinite;
-        letter-spacing: -1px;
+      .brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
       }
 
-      @keyframes gradientShift {
-        0%   { background-position: 0% 50%; }
-        100% { background-position: 300% 50%; }
+      .logo {
+        width: 56px;
+        height: 56px;
+        flex-shrink: 0;
+      }
+
+      .logo svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 28px;
+        font-weight: 600;
+        color: #e8e8ed;
+        letter-spacing: -0.03em;
+        line-height: 1.2;
       }
 
       .header p {
-        font-size: 13px;
-        color: #555;
-        margin-top: 6px;
-        letter-spacing: 0.1em;
+        font-size: 12px;
+        color: #5c5c6a;
+        margin-top: 8px;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
+        font-weight: 500;
       }
 
       .card {
         max-width: 900px;
         margin: 0 auto;
         background: #13131a;
-        border-radius: 20px;
+        border-radius: 16px;
         border: 1px solid #2a2a3a;
         overflow: hidden;
         position: relative;
         z-index: 1;
-        box-shadow: 0 0 60px rgba(120, 40, 200, 0.15), 0 0 120px rgba(0, 200, 150, 0.05);
-        transition: box-shadow 0.3s;
-      }
-
-      .card:hover {
-        box-shadow: 0 0 80px rgba(120, 40, 200, 0.25), 0 0 140px rgba(0, 200, 150, 0.1);
-      }
-
-      /* Kart üstü ışık efekti */
-      .card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, #a855f7, #06b6d4, #f43f5e, transparent);
-        animation: topLine 3s linear infinite;
-      }
-
-      @keyframes topLine {
-        0%   { opacity: 0.4; }
-        50%  { opacity: 1; }
-        100% { opacity: 0.4; }
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
       }
 
       /* Dil bar */
@@ -158,11 +139,32 @@
       }
 
       #swapBtn:hover {
-        background: #a855f7;
-        color: #fff;
-        transform: rotate(180deg);
-        border-color: #a855f7;
-        box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+        background: #252532;
+        color: #c4b5fd;
+        border-color: #3f3f52;
+      }
+
+      #swapBtn:focus-visible {
+        outline: 2px solid #06b6d4;
+        outline-offset: 2px;
+      }
+
+      .lang-hint {
+        font-size: 11px;
+        color: #444;
+        text-align: center;
+        padding: 8px 16px 0;
+        letter-spacing: 0.04em;
+      }
+
+      .lang-hint kbd {
+        font-family: inherit;
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: #1a1a28;
+        border: 1px solid #2a2a3a;
+        color: #666;
       }
 
       /* Paneller */
@@ -294,7 +296,7 @@
 
       #translateBtn:hover {
         transform: translateY(-1px);
-        box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
       }
 
       #translateBtn:disabled {
@@ -333,7 +335,7 @@
         font-size: 13px;
         color: #f43f5e;
         padding: 10px 24px;
-        border-top: 1px solid #2a1a1a;
+        border-top: 1px solid #2a2a1a;
         background: #1a0f0f;
       }
 
@@ -352,30 +354,81 @@
         opacity: 0;
         transition: opacity 0.3s;
       }
+
+      /* Dil değişimi geri bildirimi */
+      #langFeedback {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        z-index: 100;
+        padding: 12px 20px;
+        border-radius: 12px;
+        background: #1a1a28;
+        border: 1px solid #2a2a3a;
+        color: #e0e0e0;
+        font-size: 13px;
+        font-weight: 500;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(168, 85, 247, 0.15);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.35s ease, opacity 0.35s ease;
+        max-width: min(90vw, 420px);
+        text-align: center;
+      }
+
+      #langFeedback.visible {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      #langFeedback strong {
+        color: #a855f7;
+        font-weight: 600;
+      }
     </style>
 
   </head>
 
   <body>
 
-    <div class="header">
-      <h1>Translate with Denis</h1>
-      <p>Türkçe ↔ İngilizce</p>
-    </div>
+    <header class="header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img">
+            <title>Translate with Denis</title>
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a855f7"/>
+                <stop offset="100%" stop-color="#06b6d4"/>
+              </linearGradient>
+            </defs>
+            <rect x="4" y="4" width="56" height="56" rx="14" fill="#16161f" stroke="#2a2a3a" stroke-width="1"/>
+            <path d="M22 20h12c7.18 0 13 5.82 13 13s-5.82 13-13 13H22V20z" fill="none" stroke="url(#logoGrad)" stroke-width="2.25" stroke-linejoin="round"/>
+            <path d="M38 32h10M43 27l5 5-5 5" fill="none" stroke="#8b8b9a" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Translate with Denis</h1>
+          <p>Türkçe ↔ İngilizce</p>
+        </div>
+      </div>
+    </header>
 
     <div class="card">
 
       <div class="lang-bar">
-        <button class="lang-btn" id="sourceLangBtn">Türkçe</button>
+        <button type="button" class="lang-btn" id="sourceLangBtn" aria-live="polite">Türkçe</button>
         <div class="lang-divider">
-          <button id="swapBtn">⇄</button>
+          <button type="button" id="swapBtn" title="Dilleri değiştir (Ctrl tuşuna iki kez hızlıca basın)" aria-label="Dilleri değiştir">⇄</button>
         </div>
-        <button class="lang-btn right" id="targetLangBtn">İngilizce</button>
+        <button type="button" class="lang-btn right" id="targetLangBtn">İngilizce</button>
       </div>
+      <p class="lang-hint" id="swapHint">Kısayol: <kbd>Ctrl</kbd> tuşuna <strong>iki kez hızlıca</strong> basın (çift tıklama)</p>
 
       <div class="panels">
         <div class="panel">
-          <textarea id="wordInput" placeholder="Metin girin..." maxlength="500"></textarea>
+          <textarea id="wordInput" placeholder="Metin girin..." maxlength="500" aria-label="Kaynak metin"></textarea>
           <div class="glow"></div>
         </div>
         <div class="panel-divider"></div>
@@ -390,8 +443,8 @@
       <div class="panel-footer">
         <span class="char-count" id="charCount">0 / 500</span>
         <div class="footer-right">
-          <button id="clearBtn">✕</button>
-          <button id="translateBtn"><span>Çevir</span></button>
+          <button type="button" id="clearBtn">✕</button>
+          <button type="button" id="translateBtn"><span>Çevir</span></button>
         </div>
       </div>
 
@@ -400,6 +453,8 @@
       </div>
 
     </div>
+
+    <div id="langFeedback" role="status" aria-live="polite"></div>
 
     <script>
       const wordInput    = document.getElementById('wordInput');
@@ -412,10 +467,57 @@
       const charCount    = document.getElementById('charCount');
       const sourceLangBtn = document.getElementById('sourceLangBtn');
       const targetLangBtn = document.getElementById('targetLangBtn');
+      const langFeedback = document.getElementById('langFeedback');
 
       let currentSource = 'tr';
       let currentTarget = 'en';
       let translateTimer = null;
+      let feedbackTimer = null;
+      let lastCtrlDownTime = 0;
+      const DOUBLE_CTRL_MS = 400;
+
+      const LABEL = { tr: 'Türkçe', en: 'İngilizce' };
+
+      function langLabel(code) {
+        return LABEL[code] || code;
+      }
+
+      function showLangFeedback(messageHtml) {
+        langFeedback.innerHTML = messageHtml;
+        langFeedback.classList.add('visible');
+        clearTimeout(feedbackTimer);
+        feedbackTimer = setTimeout(function() {
+          langFeedback.classList.remove('visible');
+        }, 2800);
+      }
+
+      function swapLanguages(options) {
+        const opts = options || {};
+        const fromShortcut = !!opts.fromShortcut;
+
+        if (currentSource === 'tr') {
+          currentSource = 'en';
+          currentTarget = 'tr';
+        } else {
+          currentSource = 'tr';
+          currentTarget = 'en';
+        }
+
+        sourceLangBtn.textContent = langLabel(currentSource);
+        targetLangBtn.textContent = langLabel(currentTarget);
+
+        const msg =
+          '<strong>' + langLabel(currentSource) + '</strong> → <strong>' + langLabel(currentTarget) + '</strong>';
+        if (fromShortcut) {
+          showLangFeedback('Diller değiştirildi (Ctrl çift tıklama): ' + msg);
+        } else {
+          showLangFeedback('Diller değiştirildi: ' + msg);
+        }
+
+        if (wordInput.value.trim()) {
+          translate();
+        }
+      }
 
       wordInput.addEventListener('input', function() {
         const len = wordInput.value.length;
@@ -438,18 +540,27 @@
       });
 
       swapBtn.addEventListener('click', function() {
-        if (currentSource === 'tr') {
-          currentSource = 'en';
-          currentTarget = 'tr';
-          sourceLangBtn.textContent = 'İngilizce';
-          targetLangBtn.textContent = 'Türkçe';
-        } else {
-          currentSource = 'tr';
-          currentTarget = 'en';
-          sourceLangBtn.textContent = 'Türkçe';
-          targetLangBtn.textContent = 'İngilizce';
+        swapLanguages({ fromShortcut: false });
+      });
+
+      document.addEventListener('keydown', function(e) {
+        const isCtrlKey = e.key === 'Control' || e.code === 'ControlLeft' || e.code === 'ControlRight';
+
+        if (!isCtrlKey) {
+          lastCtrlDownTime = 0;
+          return;
         }
-        if (wordInput.value.trim()) translate();
+
+        if (e.repeat) return;
+
+        const now = Date.now();
+        if (lastCtrlDownTime && (now - lastCtrlDownTime) < DOUBLE_CTRL_MS) {
+          e.preventDefault();
+          swapLanguages({ fromShortcut: true });
+          lastCtrlDownTime = 0;
+        } else {
+          lastCtrlDownTime = now;
+        }
       });
 
       translateBtn.addEventListener('click', translate);
