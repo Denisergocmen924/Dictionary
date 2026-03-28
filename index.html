@@ -436,7 +436,7 @@
           <div class="loading-dots" id="loadingDots">
             <span></span><span></span><span></span>
           </div>
-          <div class="output-text placeholder" id="outputText">Çeviri burada görünecek</div>
+          <div class="output-text placeholder" id="outputText">Çeviri burada görünecek / The translation will appear here</div>
         </div>
       </div>
 
@@ -444,12 +444,12 @@
         <span class="char-count" id="charCount">0 / 500</span>
         <div class="footer-right">
           <button type="button" id="clearBtn">✕</button>
-          <button type="button" id="translateBtn"><span>Çevir</span></button>
+          <button type="button" id="translateBtn"><span>Çevir/Translate</span></button>
         </div>
       </div>
 
       <div class="error-msg" id="errorMsg">
-        Çeviri yapılamadı. Lütfen internet bağlantınızı kontrol edin.
+        Çeviri yapılamadı. Lütfen internet bağlantınızı kontrol edin / Translation failed. Please check your internet connection.
       </div>
 
     </div>
@@ -509,9 +509,9 @@
         const msg =
           '<strong>' + langLabel(currentSource) + '</strong> → <strong>' + langLabel(currentTarget) + '</strong>';
         if (fromShortcut) {
-          showLangFeedback('Diller değiştirildi (Ctrl çift tıklama): ' + msg);
+          showLangFeedback('Diller değiştirildi / Languages have been changed (Ctrl çift tıklama): ' + msg);
         } else {
-          showLangFeedback('Diller değiştirildi: ' + msg);
+          showLangFeedback('Diller değiştirildi / Languages have been changed: ' + msg);
         }
 
         if (wordInput.value.trim()) {
@@ -573,7 +573,7 @@
       });
 
       function resetOutput() {
-        outputText.textContent = 'Çeviri burada görünecek';
+        outputText.textContent = 'Çeviri burada görünecek / The translation will appear here';
         outputText.classList.add('placeholder');
         errorMsg.style.display = 'none';
         loadingDots.style.display = 'none';
