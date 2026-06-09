@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Translate with Denis</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
       * {
@@ -13,21 +13,24 @@
         padding: 0;
       }
 
-      body {
-        font-family: 'Space Grotesk', sans-serif;
-        background: #0a0a0f;
-        min-height: 100vh;
-        padding: 40px 20px;
-        overflow-x: hidden;
+      html {
+        font-family: 'Inter', sans-serif;
+        font-size: 16px;
       }
 
-      /* Statik, hafif derinlik (animasyonsuz) */
+      body {
+        min-height: 100vh;
+        padding: 40px 20px;
+        background: linear-gradient(180deg, #eff3f8 0%, #f8fbff 100%);
+        color: #1f2937;
+      }
+
       body::before {
         content: '';
         position: fixed;
         inset: 0;
-        background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 40, 200, 0.08) 0%, transparent 55%),
-                    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
+        background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 26%),
+                    radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.08), transparent 22%);
         pointer-events: none;
         z-index: 0;
       }
@@ -37,6 +40,7 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
+        gap: 10px;
         margin-bottom: 32px;
         position: relative;
         z-index: 1;
@@ -44,14 +48,13 @@
 
       .brand {
         display: flex;
-        flex-direction: column;
         align-items: center;
         gap: 16px;
       }
 
       .logo {
-        width: 56px;
-        height: 56px;
+        width: 52px;
+        height: 52px;
         flex-shrink: 0;
       }
 
@@ -62,318 +65,305 @@
       }
 
       .header h1 {
-        font-size: 28px;
-        font-weight: 600;
-        color: #e8e8ed;
+        font-size: clamp(1.75rem, 2vw, 2.25rem);
+        font-weight: 700;
+        color: #111827;
         letter-spacing: -0.03em;
-        line-height: 1.2;
+        line-height: 1.1;
       }
 
       .header p {
-        font-size: 12px;
-        color: #5c5c6a;
-        margin-top: 8px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        font-weight: 500;
+        font-size: 0.95rem;
+        color: #4b5563;
+        letter-spacing: 0.03em;
+        max-width: 520px;
       }
 
       .card {
-        max-width: 900px;
+        max-width: 960px;
         margin: 0 auto;
-        background: #13131a;
-        border-radius: 16px;
-        border: 1px solid #2a2a3a;
+        background: #ffffff;
+        border-radius: 28px;
         overflow: hidden;
         position: relative;
         z-index: 1;
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 0 28px 90px rgba(15, 23, 42, 0.08);
       }
 
-      /* Dil bar */
       .lang-bar {
         display: flex;
         align-items: center;
-        border-bottom: 1px solid #2a2a3a;
-        background: #0f0f18;
+        gap: 12px;
+        padding: 20px;
+        background: #f8fafc;
       }
 
       .lang-btn {
         flex: 1;
-        padding: 18px 24px;
-        font-size: 15px;
+        min-width: 120px;
+        padding: 14px 20px;
+        font-size: 0.98rem;
         font-weight: 600;
-        font-family: 'Space Grotesk', sans-serif;
-        background: none;
-        border: none;
-        cursor: default;
-        color: #a855f7;
-        border-bottom: 2px solid #a855f7;
-        letter-spacing: 0.02em;
-        transition: color 0.2s;
+        color: #1f2937;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
       }
 
       .lang-btn.right {
-        color: #888;
-        border-bottom: 2px solid transparent;
-        text-align: left;
+        color: #6b7280;
+        text-align: right;
+      }
+
+      .lang-btn:not(.active):hover {
+        border-color: #cbd5e1;
+      }
+
+      .lang-btn.active {
+        color: #1d4ed8;
+        border-color: #1d4ed8;
+        background: #eff6ff;
       }
 
       .lang-divider {
-        padding: 0 12px;
+        padding: 0 4px;
       }
 
       #swapBtn {
-        width: 38px;
-        height: 38px;
+        width: 44px;
+        height: 44px;
         border-radius: 50%;
-        border: 1px solid #2a2a3a;
-        background: #1a1a28;
+        border: 1px solid #e5e7eb;
+        background: #ffffff;
         cursor: pointer;
-        font-size: 16px;
-        color: #a855f7;
+        font-size: 18px;
+        color: #2563eb;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.3s;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
       }
 
       #swapBtn:hover {
-        background: #252532;
-        color: #c4b5fd;
-        border-color: #3f3f52;
+        transform: scale(1.02);
+        box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
       }
 
       #swapBtn:focus-visible {
-        outline: 2px solid #06b6d4;
+        outline: 2px solid #2563eb;
         outline-offset: 2px;
       }
 
       .lang-hint {
-        font-size: 11px;
-        color: #444;
+        font-size: 0.88rem;
+        color: #6b7280;
         text-align: center;
-        padding: 8px 16px 0;
-        letter-spacing: 0.04em;
+        padding: 10px 16px 0;
       }
 
       .lang-hint kbd {
-        font-family: inherit;
-        font-size: 10px;
-        padding: 2px 6px;
-        border-radius: 4px;
-        background: #1a1a28;
-        border: 1px solid #2a2a3a;
-        color: #666;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.82rem;
+        padding: 4px 8px;
+        border-radius: 8px;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        color: #374151;
       }
 
-      /* Paneller */
       .panels {
         display: grid;
         grid-template-columns: 1fr 1px 1fr;
-        min-height: 220px;
+        min-height: 280px;
       }
 
       .panel {
-        padding: 24px;
+        padding: 28px;
         position: relative;
       }
 
       .panel textarea {
         width: 100%;
-        height: 160px;
-        border: none;
+        min-height: 220px;
+        border: 1px solid #e5e7eb;
         outline: none;
-        font-size: 18px;
-        font-family: 'Space Grotesk', sans-serif;
-        color: #f0f0f0;
+        font-size: 1rem;
+        font-family: 'Inter', sans-serif;
+        color: #111827;
         resize: none;
-        background: transparent;
-        line-height: 1.6;
-        caret-color: #a855f7;
+        background: #ffffff;
+        line-height: 1.65;
+        border-radius: 20px;
+        padding: 20px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .panel textarea:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
       }
 
       .panel textarea::placeholder {
-        color: #333;
+        color: #9ca3af;
       }
 
       .panel-divider {
-        background: #2a2a3a;
+        background: #e5e7eb;
         width: 1px;
       }
 
       .output-panel {
-        background: #0f0f18;
+        background: #f8fafc;
       }
 
       .output-text {
-        font-size: 18px;
-        line-height: 1.6;
-        min-height: 160px;
-        color: #06b6d4;
+        font-size: 1rem;
+        line-height: 1.75;
+        min-height: 220px;
+        color: #111827;
         font-weight: 500;
-        transition: color 0.3s;
+        white-space: pre-wrap;
       }
 
       .output-text.placeholder {
-        color: #333;
+        color: #9ca3af;
         font-weight: 400;
       }
 
-      /* Alt bar */
       .panel-footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 12px 24px;
-        border-top: 1px solid #2a2a3a;
-        background: #0f0f18;
+        gap: 16px;
+        padding: 18px 28px;
+        border-top: 1px solid #e5e7eb;
       }
 
       .char-count {
-        font-size: 12px;
-        color: #444;
-        letter-spacing: 0.05em;
+        font-size: 0.9rem;
+        color: #6b7280;
       }
 
-      .char-count.warning { color: #f43f5e; }
+      .char-count.warning { color: #dc2626; }
 
       .footer-right {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
       }
 
       #clearBtn {
-        width: 28px;
-        height: 28px;
+        width: 34px;
+        height: 34px;
         border-radius: 50%;
-        border: 1px solid #2a2a3a;
-        background: #1a1a28;
-        color: #555;
-        font-size: 12px;
+        border: 1px solid #d1d5db;
+        background: #ffffff;
+        color: #6b7280;
+        font-size: 14px;
         cursor: pointer;
         display: none;
         align-items: center;
         justify-content: center;
-        transition: all 0.2s;
+        transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
       }
 
       #clearBtn:hover {
-        background: #f43f5e;
-        color: #fff;
-        border-color: #f43f5e;
+        background: #f3f4f6;
+        color: #111827;
+        border-color: #9ca3af;
       }
 
       #translateBtn {
-        padding: 10px 28px;
-        font-size: 14px;
-        font-weight: 600;
-        font-family: 'Space Grotesk', sans-serif;
-        background: linear-gradient(135deg, #a855f7, #06b6d4);
-        background-size: 200% 200%;
-        color: #fff;
+        padding: 12px 32px;
+        font-size: 0.96rem;
+        font-weight: 700;
+        color: #ffffff;
+        background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
         border: none;
-        border-radius: 10px;
+        border-radius: 16px;
         cursor: pointer;
-        transition: all 0.3s;
-        letter-spacing: 0.03em;
-        position: relative;
-        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
       }
-
-      #translateBtn::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, #06b6d4, #f43f5e);
-        opacity: 0;
-        transition: opacity 0.3s;
-      }
-
-      #translateBtn:hover::after { opacity: 1; }
-      #translateBtn span { position: relative; z-index: 1; }
 
       #translateBtn:hover {
         transform: translateY(-1px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 16px 30px rgba(37, 99, 235, 0.2);
       }
 
       #translateBtn:disabled {
-        opacity: 0.4;
+        opacity: 0.55;
         cursor: not-allowed;
         transform: none;
+        box-shadow: none;
       }
 
-      /* Loading */
       .loading-dots {
         display: none;
-        gap: 6px;
+        gap: 8px;
         align-items: center;
         padding: 4px 0;
       }
 
       .loading-dots span {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
+        width: 9px;
+        height: 9px;
+        border-radius: 999px;
+        background: #2563eb;
         animation: bounce 1.2s infinite;
       }
 
-      .loading-dots span:nth-child(1) { background: #a855f7; }
-      .loading-dots span:nth-child(2) { background: #06b6d4; animation-delay: 0.2s; }
-      .loading-dots span:nth-child(3) { background: #f43f5e; animation-delay: 0.4s; }
+      .loading-dots span:nth-child(2) { animation-delay: 0.16s; }
+      .loading-dots span:nth-child(3) { animation-delay: 0.32s; }
 
       @keyframes bounce {
-        0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-        40%            { transform: scale(1.2); opacity: 1; }
+        0%, 80%, 100% { transform: scale(0.65); opacity: 0.5; }
+        40% { transform: scale(1); opacity: 1; }
       }
 
-      /* Hata */
       .error-msg {
         display: none;
-        font-size: 13px;
-        color: #f43f5e;
-        padding: 10px 24px;
-        border-top: 1px solid #2a2a1a;
-        background: #1a0f0f;
+        font-size: 0.95rem;
+        color: #b91c1c;
+        padding: 14px 24px;
+        border-top: 1px solid #fee2e2;
+        background: #fef2f2;
       }
 
-      /* Yazarken input paneli parlar */
       .panel textarea:focus ~ .glow,
       .panel:focus-within .glow {
-        opacity: 1;
+        opacity: 0.08;
       }
 
       .glow {
         position: absolute;
         inset: 0;
         pointer-events: none;
-        border-radius: 0;
-        box-shadow: inset 0 0 30px rgba(168, 85, 247, 0.04);
+        border-radius: 22px;
+        box-shadow: inset 0 0 30px rgba(37, 99, 235, 0.12);
         opacity: 0;
-        transition: opacity 0.3s;
+        transition: opacity 0.3s ease;
       }
 
-      /* Dil değişimi geri bildirimi */
       #langFeedback {
         position: fixed;
         bottom: 28px;
         left: 50%;
         transform: translateX(-50%) translateY(100px);
         z-index: 100;
-        padding: 12px 20px;
-        border-radius: 12px;
-        background: #1a1a28;
-        border: 1px solid #2a2a3a;
-        color: #e0e0e0;
-        font-size: 13px;
-        font-weight: 500;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(168, 85, 247, 0.15);
+        padding: 14px 22px;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        color: #111827;
+        font-size: 0.95rem;
+        box-shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
         opacity: 0;
         pointer-events: none;
         transition: transform 0.35s ease, opacity 0.35s ease;
-        max-width: min(90vw, 420px);
+        max-width: min(88vw, 420px);
         text-align: center;
       }
 
@@ -383,8 +373,8 @@
       }
 
       #langFeedback strong {
-        color: #a855f7;
-        font-weight: 600;
+        color: #2563eb;
+        font-weight: 700;
       }
     </style>
 
@@ -418,7 +408,7 @@
     <div class="card">
 
       <div class="lang-bar">
-        <button type="button" class="lang-btn" id="sourceLangBtn" aria-live="polite">Türkçe</button>
+        <button type="button" class="lang-btn active" id="sourceLangBtn" aria-live="polite">Türkçe</button>
         <div class="lang-divider">
           <button type="button" id="swapBtn" title="Dilleri değiştir (Ctrl tuşuna iki kez hızlıca basın)" aria-label="Dilleri değiştir">⇄</button>
         </div>
